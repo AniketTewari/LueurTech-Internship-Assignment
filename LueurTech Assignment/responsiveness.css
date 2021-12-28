@@ -1,0 +1,31 @@
+@media screen and (max-width:800px) {
+    html{
+        width: fit-content;
+    }
+
+    #body{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 320px;
+        height: fit-content;
+        margin-left: -100px;
+        margin-right: 0px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        padding: 0% 0% 0% 0%;
+    }
+
+    .formoptions, .part1{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width:fit-content;
+    }
+
+    #Submit
+    {
+        width: 180px;
+    }
+
+}

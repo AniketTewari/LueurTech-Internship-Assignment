@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LueurTech Internship Assignment</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="responsiveness.css">
+</head>
+
+<body id=body style="background-image: url('https://source.unsplash.com/1000x2000/?nature');" onload="myFun()">
+    <div id="loading"></div>
+    <div class="part1" id="part1">
+        <form class="formoptions" id="formoptions" action="#" method="" onsubmit="validate();">
+            <h1>Sign Up</h1>
+            <label id="mylabel" for="">Username</label>
+            <br>
+            <input id="myinputUsername" class="input" type="text" placeholder="Enter the Username">
+            <br>
+            <div class="errorName" id="errorUsername"><p>Error!!</p></div>
+            <label id="mylabel" for="">Mobile No.</label>
+            <br>
+            <input id="myinputMobile" type="tel" placeholder="Enter the Mobile No.">
+            <br>
+            <div class="errorName" id="errorMobile"><p>Error!!</p></div>
+            <label id="mylabel" for="">E-mail</label>
+            <br>
+            <input id="myinputEmail" type="email" placeholder="Enter the E-mail">
+            <br>
+            <div class="errorName" id="errorEmail"><p>Error!!</p></div>
+            <label id="mylabel" for="">Password</label>
+            <br>
+            <input id="myinputPassword" type="password" placeholder="Enter the Password">
+            <br>
+            <div class="errorName" id="errorPassword"><p>Error!!</p></div>
+            <label id="mylabel" for="">Confirm Password</label>
+            <br>
+            <input id="myinputConfirmPassword" type="password" placeholder="Confirm Password">
+            <br>
+            <button id="Submit">Submit</button>
+            <!-- <input id="Submit" type="submit" value="Submit"> -->
+        </form>
+    </div>
+
+    <script type="module">
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDfIxIcBgdkARG0Z_aJB-q2mgKc3GPGM74",
+            authDomain: "lueurtechinternship-assignment.firebaseapp.com",
+            projectId: "lueurtechinternship-assignment",
+            storageBucket: "lueurtechinternship-assignment.appspot.com",
+            messagingSenderId: "1040620790526",
+            appId: "1:1040620790526:web:ad8a8bf2844f9f4cb9bbaf",
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth=getAuth();
+    
+        import { getDatabase, ref, set, child, update, remove }
+        from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+    
+        const db=getDatabase();
+
+        //Initialise Variables
+
+        var nameS=document.getElementById("myinputUsername");
+        var mobileS=document.getElementById("myinputMobile");
+        var emailS=document.getElementById("myinputEmail");
+        var passwordS=document.getElementById("myinputPassword");
+        var confirmpasswordS=document.getElementById("myinputConfirmPassword");
+        var submitButton=document.getElementById("Submit");
+
+        //Function to add data in Database
+
+function addName(){
+    set(ref(db,"User Details/"+nameS.value),{
+        Name:nameS.value,
+        MobileNo:mobileS.value,
+        Email:emailS.value,
+        Password:passwordS.value
+    })
+    .then(()=>{
+        alert("Data successfully Saved!!");
+    })
+    .catch((error)=>{
+        alert("Some Error occurred!! "+error);
+    });
+}
+    
+        //Function to Check Input Fields
+
+        function validate()
+        {
+            var nameS=document.getElementById("myinputUsername").value;
+            var mobileS=document.getElementById("myinputMobile").value;
+            var emailS=document.getElementById("myinputEmail").value;
+            var passwordS=document.getElementById("myinputPassword").value;
+            var confirmpasswordS=document.getElementById("myinputConfirmPassword").value;
+
+            var pattern=/^[^ ]+@[^ ]+\.[a-z]{2,3}/;
+            var count=0;
+
+            if(nameS.length==0 || mobileS.length==0 || emailS.length==0 || passwordS.length==0)
+            {
+                alert("Please fill all the fields!!");
+                count++;
+            }
+            if(nameS.length<3 || nameS.length>15)
+            {
+                document.getElementById("errorUsername").style.display="block";
+                count++;
+            }
+            if(mobileS.length!=10)
+            {
+                // alert("Please enter the Coreect Mobile No.");
+                document.getElementById("errorMobile").style.display="block";
+                count++;
+            }
+            if(!(emailS.match(pattern)))
+            {
+                document.getElementById("errorEmail").style.display="block";
+                count++;
+            }
+            if(passwordS.length<8 || passwordS.length>15)
+            {
+                // alert("Please enter the correct Password!!");
+                document.getElementById("errorPassword").style.display="block";
+                count++;
+            }
+            if(!(confirmpasswordS==passwordS))
+            {
+                document.getElementById("errorPassword").style.display="block";
+                count++;
+            }
+            if(count==0)
+            {
+                submitButton.addEventListener('click',addName());
+            }
+            if(count==0)
+            {
+                // submitButton.addEventListener('click',addName());
+                setTimeout(function(){document.location.href="https://www.google.com"},1500);
+                console.log("Moved");
+            }
+        }
+
+submitButton.addEventListener('click',validate);
+
+var preloader=document.getElementById('loading');
+
+function myFun(){
+    preloader.style.display='none';
+    setTimeout(function(){document.getElementById("part1").style.visibility="visible"},5000);
+    setTimeout(function(){document.getElementById("formoptions").style.visibility="visible"},5000);
+}
+submitButton.addEventListener('click',myFun());
+// submitButton.addEventListener('click',addName());
+    
+    </script>
+</body>
+
+<script src="logic.js"></script>
+
+</html>
